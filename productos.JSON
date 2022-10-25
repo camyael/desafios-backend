@@ -1,0 +1,22 @@
+[
+  {
+    "objeto": "Jazmines",
+    "precio": "$500",
+    "id": 1
+  },
+  {
+    "objeto": "Tulipanes",
+    "precio": "$700",
+    "id": 2
+  },
+  {
+    "objeto": "Rosas",
+    "precio": "$400",
+    "id": 3
+  },
+  {
+    "objeto": "Margaritas",
+    "precio": "$300",
+    "id": 4
+  }
+]
