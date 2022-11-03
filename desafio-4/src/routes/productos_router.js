@@ -11,15 +11,16 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', uploader.single('image'), async (req, res) => {
-    
     const datos = req.body
     if (req.file) {
         const image = req.protocol+"://"+req.hostname+':8080/images/'+req.file.filename;
         datos.image = image
         const save =  await contenedor.save(datos)
+        res.send({status:'enviado', message:"Producto agregado con éxito"})
+    } else {
+        const save =  await contenedor.save(datos)
+        res.send({status:'enviado', message:"Producto agregado con éxito"})
     }
-    const save =  await contenedor.save(datos)
-    res.send({status:'enviado', message:"Producto agregado con éxito"})
 })
 
 router.get('/:id', (req, res) => {
@@ -27,10 +28,11 @@ router.get('/:id', (req, res) => {
     res.send(contenedor.getById(id))
 })
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
     const id = req.params.id
     const datos = req.body
-    res.send(contenedor.putById(id, datos))
+    const result = await contenedor.putById(id, datos)
+    res.send(result)
 })
 
 router.delete('/:id', async (req, res) => {

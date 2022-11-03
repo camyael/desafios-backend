@@ -60,23 +60,18 @@ class Contenedor {
 
     putById = async(id, datos) => {
         const data = JSON.parse(await fs.promises.readFile(path, 'utf-8'))
-        console.log(data)
-        // const idArray = data.map(e => e.id)
-        // console.log(idArray)
-        // const indice = idArray.indexOf(parseInt(id))
-        // if (indice != -1) {
-        //     const productoID = data.filter(e => e.id == id)
-        //     console.log(productoID)
-        //     const newItem = datos
-        //     data[id - 1] = newItem
-        //     await fs.promises.writeFile(path, JSON.stringify(data, null, 2))
-        //     return {message: "Precio actualizado con éxito", payload:productoID}
-        // } else {
-        //     return {error: 'producto no encontrado'}
-        // }
-
-        
-        
+        const idArray = data.map(e => e.id)
+        const indice = idArray.indexOf(parseInt(id))
+        if (indice != -1) {
+            const productoID = data.filter(e => e.id == id)
+            const newItem = datos
+            newItem.id = indice + 1
+            data[indice] = newItem
+            await fs.promises.writeFile(path, JSON.stringify(data, null, 2))
+            return {message: "Precio actualizado con éxito", payload:productoID}
+        } else {
+            return {error: 'producto no encontrado'}
+        }
     }
 }
 
