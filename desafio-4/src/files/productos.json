@@ -1,17 +1,14 @@
 [
   {
-    "title": "Cssmla",
-    "price": 2060,
+    "title": "Cuadro",
+    "price": "122333",
+    "image": "http://localhost:8080/images/1667436074488-aesthetic-desktop-purple-night-m2g8dkn3svi5w9c8-m2g8dkn3svi5w9c8.jpg",
     "id": 1
   },
   {
-    "title": "Cssmla",
-    "price": 2777777777060,
-    "id": 3
-  },
-  {
-    "title": "Cssmla",
-    "price": 77777060,
-    "id": 4
+    "title": "Sunset",
+    "price": "30000",
+    "image": "http://localhost:8080/images/1667436106117-sunset-in-the-mountains-illustration_3840x2160_xtrafondos.com.jpg",
+    "id": 2
   }
 ]

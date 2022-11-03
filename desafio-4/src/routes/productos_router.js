@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Contenedor from "../contenedor/Contenedor.js";
+import { uploader } from "../utils.js";
 
 const router = Router()
 
@@ -9,14 +10,16 @@ router.get('/', (req, res) => {
     res.send(contenedor.getAll())
 })
 
-router.post('/', async (req, res) => {
-    const {title,price} = req.body
-    const newProducto = {
-        title,
-        price
+router.post('/', uploader.single('image'), async (req, res) => {
+    
+    const datos = req.body
+    if (req.file) {
+        const image = req.protocol+"://"+req.hostname+':8080/images/'+req.file.filename;
+        datos.image = image
+        const save =  await contenedor.save(datos)
     }
-    const save =  await contenedor.save(newProducto)
-    res.send({status:'enviado', payload:newProducto})
+    const save =  await contenedor.save(datos)
+    res.send({status:'enviado', message:"Producto agregado con éxito"})
 })
 
 router.get('/:id', (req, res) => {
@@ -26,7 +29,8 @@ router.get('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     const id = req.params.id
-    res.send(contenedor.putById(id))
+    const datos = req.body
+    res.send(contenedor.putById(id, datos))
 })
 
 router.delete('/:id', async (req, res) => {
