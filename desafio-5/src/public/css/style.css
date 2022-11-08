@@ -1,0 +1,28 @@
+body {
+    background-color: #eaccea;
+    text-align: center;
+}
+
+a, h1, h2 {
+    margin-top: 20px;
+    color: #5e275e;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+form {
+    margin-top: 40px;
+}
+
+form input {
+    border: none;
+    border-radius: 10px;
+}
+
+form button {
+    background-color: #514151;
+    border: #eaccea;
+    border-radius: 10px;
+    padding: 8px 16px;
+    color: #eaccea;
+}
