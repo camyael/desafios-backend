@@ -1,0 +1,13 @@
+<%- include('../partials/head')%> 
+
+<h1>Formulario de productos</h1>
+
+<form action="/productos" method="post">
+    <label>Nombre del producto</label>
+    <input name="title">
+    <label>Precio</label>
+    <input type="number" name="price">
+    <button type="submit">Enviar</button>
+</form>
+
+<a href="/productos">Productos</a>

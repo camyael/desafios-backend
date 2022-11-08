@@ -1,0 +1,13 @@
+<%- include('../partials/head')%> 
+
+<% if (productos.length == 0) { %>
+    <h2>No hay productos</h2>
+<% } %>
+
+<% if (productos.length > 0) { %>
+    <% productos.forEach(e => { %>
+        <p>Producto: <%= e.title %>, precio: $<%= e.price %> </p>
+    <% }) %>
+<% } %>
+
+<a href="/">Formulario</a>
