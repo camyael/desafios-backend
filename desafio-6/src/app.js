@@ -2,7 +2,7 @@ import express from "express"
 import __dirname from "./utils.js"
 import productsRouter from './routes/products.routes.js'
 import { Server } from "socket.io"
-import Contenedor from "./Contenedor.js"
+import Contenedor from "./container/Contenedor.js"
 
 const app = express()
 const PORT = process.env.PORT || 8080; //por si el servidor necesita usar otro puerto

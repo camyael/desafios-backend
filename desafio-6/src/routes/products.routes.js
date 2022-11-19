@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { uploader } from "../utils.js";
-import Contenedor from "../Contenedor.js";
+import Contenedor from "../container/Contenedor.js";
 
 const router = Router()
 
