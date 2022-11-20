@@ -2,14 +2,25 @@
   {
     "id": 1,
     "timestamp": "18/11/2022, 8:23:07",
-    "products": {
-      "id": "2",
-      "quantify": 6
-    }
+    "products": [
+      {
+        "id": 2,
+        "quantify": 9
+      },
+      {
+        "id": 4,
+        "quantify": 3
+      }
+    ]
   },
   {
     "id": 2,
     "timestamp": "18/11/2022, 8:31:19",
-    "products": []
+    "products": [
+      {
+        "id": 5,
+        "quantify": 5
+      }
+    ]
   }
 ]

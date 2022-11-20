@@ -1,12 +1,8 @@
 <%- include('./partials/head')%>
 <h2>Productos</h2>
 
-<% allProducts.forEach(e => { %>
-    <div>
-        <p>Producto: <%= e.title %>, precio: $<%= e.price %>, id: <%= e.id %> </p>
-        <img src=<%= e.image %> >
-    </div>
-<% }) %>
+<div id="productos-tiemporeal">
+</div>
 
 <h2>Agregar productos:</h2>
 <% if (administrator = true) { %>
@@ -19,13 +15,9 @@
         <button type="submit">Enviar</button>
     </form>
 
-
-    <h2>Eliminar un producto</h2>
-    <form action="/products" method="delete">
-        <input type="number"> 
-        <button type="submit">Enviar</button>
-    </form>
-
 <% } else { %> <h3>Solo los administradores pueden realizar otras acciones</h3> <% } %> 
 
 <a href="/">Volver</a>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/productos.js"></script>

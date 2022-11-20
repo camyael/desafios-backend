@@ -1,3 +1,4 @@
+import e from 'express'
 import fs from 'fs'
 import __dirname from '../utils.js'
 
@@ -48,8 +49,23 @@ class Cart {
 
     async postInCart ( id, prod ) {
         const productos = await this.getAllCarts()
-        productos[id - 1].products = prod
-        await fs.promises.writeFile(this.path, JSON.stringify(productos, null, 2))
+        const prodArray = productos[id - 1].products
+        const comprobarID = prodArray.some(e => e.id === prod.id)
+
+        // comprobamos si el producto ya existe y si existe, solo suma la cantidad
+        if(!comprobarID) {
+            productos[id - 1].products.push(prod)
+            await fs.promises.writeFile(this.path, JSON.stringify(productos, null, 2))
+        } else {
+            const idArray = productos[id - 1].products.map(e => e.id)
+            const indice = idArray.indexOf(prod.id)
+            const qntfyOld = productos[id - 1].products[indice].quantify
+            productos[id - 1].products[indice].quantify = qntfyOld + prod.quantify
+            await fs.promises.writeFile(this.path, JSON.stringify(productos, null, 2))
+        }
+
+        // productos[id - 1].products.push(prod)
+        // await fs.promises.writeFile(this.path, JSON.stringify(productos, null, 2))
     }
 
     async deleteProducts ( idCart, idProd ) {

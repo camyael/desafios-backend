@@ -15,6 +15,7 @@ socket.on('productos', data => {
             <div>
                 <p>Producto: ${prod.title}, precio: $${prod.price}</p>
                 <img src=${prod.image}>
+                <a href= /products/${prod.id}>Ver más</a>
             </div>
         `
         }

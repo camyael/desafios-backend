@@ -34,7 +34,6 @@ const server = app.listen(PORT, () => console.log("Listening..."))
 const io = new Server(server)
 
 const productos = new Container("products")
-const mensajes = new Container("mensajes")
 
 let message = []
 
