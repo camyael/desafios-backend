@@ -20,16 +20,18 @@ class Container {
 
     async save ( add , date ) {
         const all = await this.getAll()
-        const code = Math.random()
+        const code = Math.floor(Math.random() * 99999)
         if(all === 0) {
             add.id = 1
             add.timestamp = date
+            add.code = code
             all.push(add)
             await fs.promises.writeFile(this.path, JSON.stringify(all, null, 2))
         } else {
             const id = all.length + 1
             add.id = id
             add.timestamp = date
+            add.code = code
             all.push(add)
             await fs.promises.writeFile(this.path, JSON.stringify(all, null, 2))
         }

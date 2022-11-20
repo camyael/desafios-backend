@@ -4,13 +4,17 @@ import { uploader } from "../utils.js";
 
 const router = Router()
 
+const administrator = false
+
 const productos = new Container('products')
 const allProducts = await productos.getAll()
+const PORT = process.env.PORT || 8080;
 
 router.get('/', async (req, res) => {
     // listar todos los productos disponibles
     res.render('products', {
-        allProducts
+        allProducts,
+        administrator
     })
 })
 
@@ -20,18 +24,21 @@ router.post('/', uploader.single('image'), async (req, res) => {
     const date = new Date().toLocaleString()
     if (req.file) {
         const image = req.protocol+"://"+req.hostname+':'+PORT+'/images/'+req.file.filename;
-        datos.image = image
+        newProduct.image = image
         await productos.save(newProduct, date)
     } else {
         await productos.save(newProduct, date)
     }
+    res.redirect('/products')
 })
 
 router.get('/:pid', async (req, res) => {
     // un producto por su id (disponible para usuarios y administradores)
     const id = req.params.pid
     const resultado = await productos.getById(id)
-    res.send(resultado)
+    res.render('itemDetail', {
+        resultado
+    })
 })
 
 router.put('/:pid', async (req, res) => {
@@ -44,8 +51,13 @@ router.put('/:pid', async (req, res) => {
 
 router.delete('/:pid', async (req, res) => {
     // borra un producto por su id (disponible para administradores)
-    const id = req.params.pid
-    await productos.deleteById(id)
+    if(req.params.pid) {
+        const id = req.params.pid
+        await productos.deleteById(id)
+    } else if (req.body) {
+        const del = req.body
+        await productos.deleteById(del)
+    }
 })
 
 

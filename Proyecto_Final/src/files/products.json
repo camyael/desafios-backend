@@ -1,8 +1,31 @@
 [
   {
-    "title": "Tulipan",
-    "price": 88,
-    "id": 2,
-    "timestamp": "16/11/2022, 21:35:52"
+    "title": "Romance",
+    "price": "4322233",
+    "image": "http://localhost:8080/images/1668901254375-@itsmarissa02.jpg",
+    "id": 2
+  },
+  {
+    "title": "Arte",
+    "price": "727626",
+    "image": "http://localhost:8080/images/1668901599744-descarga(9).jpg",
+    "id": 3,
+    "code": 14163
+  },
+  {
+    "title": "Paris",
+    "price": "234",
+    "image": "http://localhost:8080/images/1668905496593-descarga(3).jpg",
+    "id": 3,
+    "timestamp": "19/11/2022, 21:51:36",
+    "code": 89134
+  },
+  {
+    "title": "Libros",
+    "price": "7265552",
+    "image": "http://localhost:8080/images/1668905598435-stellaðonTwitter.png",
+    "id": 4,
+    "timestamp": "19/11/2022, 21:53:18",
+    "code": 26795
   }
 ]
