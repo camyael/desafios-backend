@@ -27,7 +27,7 @@ chatInput.addEventListener('keyup',evt=>{
     let fecha = new Date().toLocaleString()
     if(evt.key==="Enter"){
         if(chatInput.value.trim().length>0){
-            socket.emit('message',{mail,fecha:fecha, message:chatInput.value.trim()})
+            socket.emit('message',{autor: mail,date:fecha, message:chatInput.value.trim()})
         }
     }
 })
@@ -36,7 +36,7 @@ socket.on('logs', data => {
     let message = ''
     data.forEach(e => {
         message += `
-        <p><span class="span-email">${e.mail}</span> <span class="span-fecha">[${e.fecha}]</span> : <span class="span-mensaje">${e.message}</span></p>
+        <p><span class="span-email">${e.autor}</span> <span class="span-fecha">[${e.date}]</span> : <span class="span-mensaje">${e.message}</span></p>
         `
        
     });

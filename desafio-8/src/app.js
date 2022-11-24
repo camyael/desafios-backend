@@ -42,12 +42,15 @@ io.on('connection', async socket => {
     productosSQL.getAll().then( res => {
         io.emit('products', res)
     })
-    
 
     socket.emit('logs', message)
     socket.on('message', async data => {
-        message.push(data)
-        io.emit('logs', message)
+        // message.push(data)
+        await mensajesSQL.save(data)
+    })
+
+    mensajesSQL.getAll().then( res => {
+        io.emit('logs', res)
     })
 
     socket.on('authenticated', data => {
