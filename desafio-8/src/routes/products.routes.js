@@ -1,20 +1,21 @@
 import { Router } from "express";
 // import Container from "../container/Container.js";
 import { uploader } from "../utils.js";
-
+import Contenedor from "../container/Contenedor.js";
+import sqliteOptions from "../database/knex.js";
 
 const router = Router()
 
 const administrator = false
 
-const productos = new Container('products')
-const allProducts = await productos.getAll()
+const productos = new Contenedor(sqliteOptions, 'products')
+
 const PORT = process.env.PORT || 8080;
 
 router.get('/', async (req, res) => {
     // listar todos los productos disponibles
+    console.log(await productos.getAll())
     res.render('products', {
-        allProducts,
         administrator
     })
 })
@@ -22,14 +23,27 @@ router.get('/', async (req, res) => {
 router.post('/', uploader.single('image'), async (req, res) => {
     // incorporar productos al listado (disponible para administradores)
     const newProduct = req.body
-    const date = new Date().toLocaleString()
+    // const date = new Date().toLocaleString()
     if (req.file) {
         const image = req.protocol+"://"+req.hostname+':'+PORT+'/images/'+req.file.filename;
         newProduct.image = image
-        await productos.save(newProduct, date)
+        // newProduct.date = date
+        const prod = {
+            title: newProduct.title,
+            price: newProduct.price,
+            image: image,
+        }
+        await productos.save(prod)
     } else {
-        await productos.save(newProduct, date)
+        const prod = {
+            title: newProduct.title,
+            price: newProduct.price,
+            image: image,
+        }
+
+        await productos.save(prod)
     }
+
     res.redirect('/products')
 })
 
@@ -52,13 +66,9 @@ router.put('/:pid', async (req, res) => {
 
 router.delete('/:pid', async (req, res) => {
     // borra un producto por su id (disponible para administradores)
-    if(req.params.pid) {
-        const id = req.params.pid
-        await productos.deleteById(id)
-    } else if (req.body) {
-        const del = req.body
-        await productos.deleteById(del)
-    }
+    const id = req.params.pid
+    const result = await productos.deleteById(id)
+    res.send(result)
 })
 
 

@@ -2,22 +2,20 @@ const prodArray = document.getElementById('productos-tiemporeal')
 
 const socket = io()
 
-socket.on('productos', data => {
+socket.on('products', data => {
     prodArray.innerHTML = ''
-
-    data.forEach(prod => {
-        if (data.length == 0) {
-            prodArray.innerHTML = `
-                <h2>No hay productos actualmente</h2>
-            `
-        } else {
+    
+    if(data.length === 0) {
+        prodArray.innerHTML = `<p>No hay productos actualmente</p>`
+    } else {
+        data.forEach(prod => {
             prodArray.innerHTML += `
             <div>
                 <p>Producto: ${prod.title}, precio: $${prod.price}</p>
-                <img src=${prod.image}>
+               
                 <a href= /products/${prod.id}>Ver más</a>
             </div>
         `
-        }
-    });
+        });
+    }
 })

@@ -1,12 +1,14 @@
 import knex from "knex";
+import __dirname from "../utils.js";
 
-const db = knex({
-    client: 'sqlite3',
+const sqliteOptions = {
+    client: "sqlite3",
     connection: {
-        filename: './DB/ecommerce.sqlite'
+        filename: __dirname + "/DB/ecommerce.sqlite"
     },
     useNullAsDefault: true
-})
+}
+const db = knex(sqliteOptions)
 
 try {
     let exits = await db.schema.hasTable('products')
@@ -21,24 +23,23 @@ try {
         })
     }
 } catch (error) {
-    console.log('Error en la tabla de productos')
+    console.log('Error en la tabla de productos' + error)
 }
 
 try {
     let exits = await db.schema.hasTable('chat')
     if(!exits) {
-        await db.schema.createTable('chat', tabla => {
-            tabla.primary('id')
-            tabla.increments('id')
-            tabla.string('autor', 30).notNullable()
-            tabla.string('message').notNullable()
-            tabla.string('date', 50)
+        await db.schema.createTable('chat', table => {
+            table.primary('id')
+            table.increments('id')
+            table.string('autor', 30).notNullable()
+            table.string('message').notNullable()
+            table.string('date', 50)
             console.log('creada chat')
-
         })
     }
 } catch (error) {
     console.log('Error en la tabla de mensajes')
 }
 
-export default db
+export default sqliteOptions;

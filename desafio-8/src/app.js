@@ -1,11 +1,11 @@
 import express from 'express';
 import productsRoute from './routes/products.routes.js';
 import cartRoute from './routes/cart.routes.js';
-import formRoute from './routes/form.routes.js'
+import chatRoute from './routes/chat.routes.js';
 import { Server } from "socket.io";
 // import Container from './container/Container.js';
 import Contenedor from './container/Contenedor.js';
-import db from './database/knex.js'
+import sqliteOptions from './database/knex.js'
 import __dirname from './utils.js';
 
 const app = express()
@@ -22,28 +22,27 @@ app.set('view engine', 'ejs')
 // <--- RUTAS --->
 app.use('/products', productsRoute)
 app.use('/carts', cartRoute)
-app.use('/form', formRoute)
+app.use('/chat', chatRoute)
 
 app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/chat', (req, res) => {
-    res.render('chat')
-})
-
 const server = app.listen(PORT, () => console.log("Listening..."))
 const io = new Server(server)
 
-const productosSQL = new Contenedor(db, 'products')
-const mensajesSQL = new Contenedor(db, 'chat')
+const productosSQL = new Contenedor(sqliteOptions, 'products')
+const mensajesSQL = new Contenedor(sqliteOptions, 'chat')
 
 let message = []
 
 io.on('connection', async socket => {
     console.log('Socket has been connected')
 
-    socket.emit('products', await productosSQL.getAll())
+    productosSQL.getAll().then( res => {
+        io.emit('products', res)
+    })
+    
 
     socket.emit('logs', message)
     socket.on('message', async data => {
