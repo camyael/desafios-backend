@@ -3,6 +3,7 @@ import ProductsFS from './product/ProductsFS.js';
 import ProductsMongoDb from './product/ProductsMongoDb.js';
 import CartFs from './cart/CartFS.js'
 import CartMongoDb from './cart/CartMongoDb.js'
+import { password } from '../../private/password.js';
 
 let Products
 let Carts
@@ -16,7 +17,7 @@ if (PERSISTENCIA === "FILESYSTEM") {
     Products = ProductsMongoDb
     Carts = CartMongoDb
     const db = 'ecommerce'
-    const connection = mongoose.connect(`mongodb+srv://camyael:wnhrda1udJyLfvNd@codercluster.h6dtsj6.mongodb.net/${db}?retryWrites=true&w=majority`, error => {
+    const connection = mongoose.connect(`mongodb+srv://camyael:${password}@codercluster.h6dtsj6.mongodb.net/${db}?retryWrites=true&w=majority`, error => {
         if (error) console.log(`Error al conectar a ${db}` + error);
         else console.log(`Se conectó a ${db}`)
     })
