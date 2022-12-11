@@ -4,12 +4,16 @@
     "timestamp": "18/11/2022, 8:23:07",
     "products": [
       {
-        "id": 2,
-        "quantify": 9
+        "id": 6,
+        "quantify": 25
       },
       {
         "id": 4,
-        "quantify": 3
+        "quantify": 5
+      },
+      {
+        "id": 1,
+        "quantify": 30
       }
     ]
   },
@@ -19,7 +23,7 @@
     "products": [
       {
         "id": 5,
-        "quantify": 5
+        "quantify": 12
       }
     ]
   }

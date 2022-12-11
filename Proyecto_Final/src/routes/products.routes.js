@@ -1,17 +1,17 @@
 import { Router } from "express";
-import Container from "../container/Container.js";
+import { Products } from "../dao/config.js";
 import { uploader } from "../utils.js";
 
 const router = Router()
 
 const administrator = false
 
-const productos = new Container('products')
-const allProducts = await productos.getAll()
+const productos = new Products
 const PORT = process.env.PORT || 8080;
 
 router.get('/', async (req, res) => {
     // listar todos los productos disponibles
+    const allProducts = await productos.getAll()
     res.render('products', {
         allProducts,
         administrator
@@ -44,9 +44,9 @@ router.get('/:pid', async (req, res) => {
 router.put('/:pid', async (req, res) => {
     // actualiza un producto por su id (disponible para administradores)
     const id = req.params.pid
-    const datos = req.body
-    const date = new Date().toLocaleString()
-    await productos.putById( id, datos, date)
+    const updateData = req.body.price
+    // const date = new Date().toLocaleString()
+    await productos.putById( id, updateData)
 })
 
 router.delete('/:pid', async (req, res) => {

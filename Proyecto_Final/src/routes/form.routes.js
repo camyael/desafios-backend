@@ -1,12 +1,12 @@
 import { Router } from "express";
-import Container from "../container/Container.js";
+import { Products } from "../dao/config.js";
 import { uploader } from "../utils.js";
 
 const router = Router()
 
 const PORT = process.env.PORT || 8080; //por si el servidor necesita usar otro puerto
 
-const contenedor = new Container("products")
+const contenedor = new Products
 const productos = contenedor.getAll()
 
 router.get("/", (req, res) => {

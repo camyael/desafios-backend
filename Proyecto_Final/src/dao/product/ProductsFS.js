@@ -1,21 +1,9 @@
-import fs from 'fs';
-import __dirname from '../utils.js';
+import fs from 'fs'
+import ContainerFS from '../../container/ContainerFS.js'
 
-class Container {
-    constructor(path) {
-        this.path = `${__dirname}/files/${path}.json`
-        this.creat()
-    }
-
-    async creat () {
-        if(!fs.existsSync(this.path)) {
-            await fs.promises.writeFile(this.path, JSON.stringify([]))
-        }
-    }
-
-    async getAll () {
-        const getAll = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
-        return getAll
+class ProductsFS extends ContainerFS {
+    constructor(){
+        super('products')
     }
 
     async save ( add , date ) {
@@ -36,13 +24,7 @@ class Container {
             await fs.promises.writeFile(this.path, JSON.stringify(all, null, 2))
         }
     }
-
-    async getById ( id ) {
-        const all = await this.getAll()
-        const result = all.find(e => e.id == id)
-        return result
-    }
-
+    
     async putById ( id , datos, date ) {
         const data = await this.getAll()
         const idArray = data.map(e => e.id)
@@ -72,4 +54,4 @@ class Container {
     }
 }
 
-export default Container
+export default ProductsFS

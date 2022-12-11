@@ -1,26 +1,13 @@
-import e from 'express'
 import fs from 'fs'
-import __dirname from '../utils.js'
+import ContainerFS from '../../container/ContainerFS.js'
 
-class Cart {
+class CartFS extends ContainerFS {
     constructor() {
-        this.path = `${__dirname}/files/carts.json`
-        this.creat()
-    }
-
-    async creat () {
-        if(!fs.existsSync(this.path)) {
-            await fs.promises.writeFile(this.path, JSON.stringify([]))
-        }
-    }
-
-    async getAllCarts () {
-        const getAllCarts = JSON.parse(await fs.promises.readFile(this.path, 'utf-8'))
-        return getAllCarts
+        super('carts')
     }
 
     async newCart ( timestamp ) {
-        const carts = await this.getAllCarts()
+        const carts = await this.getAll()
         let id
         const newCart = {
             "id" : id,
@@ -38,7 +25,7 @@ class Cart {
     }
 
     async deleteCart ( id ) {
-        const carts = await this.getAllCarts()
+        const carts = await this.getAll()
         const idArray = carts.map(e => e.id)
         const indice = idArray.indexOf(parseInt(id))
         if (indice != -1) {
@@ -48,7 +35,7 @@ class Cart {
     }
 
     async postInCart ( id, prod ) {
-        const productos = await this.getAllCarts()
+        const productos = await this.getAll()
         const prodArray = productos[id - 1].products
         const comprobarID = prodArray.some(e => e.id === prod.id)
 
@@ -63,16 +50,19 @@ class Cart {
             productos[id - 1].products[indice].quantify = qntfyOld + prod.quantify
             await fs.promises.writeFile(this.path, JSON.stringify(productos, null, 2))
         }
-
-        // productos[id - 1].products.push(prod)
-        // await fs.promises.writeFile(this.path, JSON.stringify(productos, null, 2))
     }
 
     async deleteProducts ( idCart, idProd ) {
-        const carts = await this.getAllCarts()
-        carts[idCart - 1].products = []
+        const carts = await this.getAll()
+        let prodArray = carts[idCart - 1].products
+        const delID = prodArray.map( e => e.id )
+        console.log(delID)
+        const indice = delID.indexOf(parseInt(idProd)) 
+        console.log(indice)
+        prodArray.splice(indice, 1)
+        carts[idCart - 1].products = prodArray
         await fs.promises.writeFile(this.path, JSON.stringify(carts, null, 2))
     }
 }
 
-export default Cart
+export default CartFS;

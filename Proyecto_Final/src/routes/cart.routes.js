@@ -1,14 +1,14 @@
 import { Router } from "express";
-import Cart from "../container/Cart.js";
+import { Carts } from "../dao/config.js";
 
 const router = Router()
 
-const cart = new Cart
-const carts = await cart.getAllCarts()
+const cart = new Carts
 
 router.get('/', async (req, res) => {
+    const allCarts = await cart.getAll()
     res.render('carts', {
-        carts
+        allCarts
     })
 })
 
@@ -27,8 +27,7 @@ router.delete('/:cid', async (req, res) => {
 router.get('/:cid/products', async (req, res) => {
     // Me permite listar todos los productos guardados en el carrito
     const id = req.params.cid
-    const carts = await cart.getAllCarts()
-    const findCart = carts.find(e => e.id == id)
+    const findCart = await cart.getById(id)
     const cartProd = findCart.products
     res.render('cart',{
         cartProd

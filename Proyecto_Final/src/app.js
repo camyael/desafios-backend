@@ -3,7 +3,7 @@ import productsRoute from './routes/products.routes.js';
 import cartRoute from './routes/cart.routes.js';
 import formRoute from './routes/form.routes.js'
 import { Server } from "socket.io";
-import Container from './container/Container.js';
+import { Products } from './dao/config.js';
 import __dirname from './utils.js';
 
 const app = express()
@@ -33,7 +33,7 @@ app.get('/chat', (req, res) => {
 const server = app.listen(PORT, () => console.log("Listening..."))
 const io = new Server(server)
 
-const productos = new Container("products")
+const productos = new Products
 
 let message = []
 
