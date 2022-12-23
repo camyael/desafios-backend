@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { Users } from '../dao/config.js'
+import { Users } from '../dao/config.js';
+import passport from "passport";
 
 const router = Router();
 const users = new Users;
@@ -13,27 +14,14 @@ router.get('/login', (req, res) => {
     })
 })
 
-router.post('/login', async (req, res) => {
-    const { mail, password } = req.body
-    if (!mail || !password) {
-        return res.status(400).send({status:"error", error: "Los datos estan incompletos"})
-    } else {
-        const userFind = await users.findUser(mail)
-        if (!userFind) {
-            res.status(400).send({status:"error", error: "El usuario no existe"})
-        }
-        else if(userFind.password === password) {
-            req.session.user = {
-                name: `${userFind.first_name} ${userFind.last_name}`,
-                mail: userFind.mail,
-                role: userFind.role
-            }
-            console.log(req.session.user)
-            res.send({status: "success", payload: "Logueado :)"})
-        } else {
-            res.status(400).send({status:"error", error: "La contraseña es incorrecta"})
-        }
+router.post('/login', passport.authenticate('login', {failureRedirect: '/failedpassport'}),async (req, res) => {
+    const user = req.user
+    req.session.user = {
+        name: `${user.first_name} ${user.last_name}`,
+        mail: user.mail,
+        role: user.role
     }
+    res.send({status: "success", payload: "Logueado :)"})
 })
 
 // registrarse
@@ -42,23 +30,16 @@ router.get('/register', (req, res) => {
     res.render('login/signin')
 })
 
-router.post('/register', async (req, res) => {
-    const { first_name, last_name, mail, password } = req.body
-    const exist = await users.findUser(mail)
-    console.log(exist)
-    if(exist) {
-        res.status(400).send({status: "error", error: "El usuario ya existe"})
-    } else {
-        const user = {
-            first_name,
-            last_name,
-            mail,
-            password
-        }
-        const result = await users.save(user)
-        console.log(result)
-        res.send({status: "success", payload: result._id})
-    }
+router.post('/register', passport.authenticate('register', {failureRedirect: '/failedregister'}), async (req, res) => {
+    const user = req.user;
+    res.send({status: "success", payload: user._id})
+})
+
+// error en passport
+
+router.get('/failedpassport', (req, res) => {
+    console.log("Passport falló");
+    res.send({status: error, payload: "Error con passport"});
 })
 
 // cerrar sesion

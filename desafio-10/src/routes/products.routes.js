@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { Products } from "../dao/config.js";
 import { uploader } from "../utils.js";
-import generateProducts from "../utils/faker.js";
+import generateProducts from "../config/faker.js";
 
 const router = Router()
 

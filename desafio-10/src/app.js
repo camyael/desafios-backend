@@ -1,7 +1,6 @@
 import express from 'express';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-import mongoose from 'mongoose';
 import { password } from '../private/password.js';
 import productsRoute from './routes/products.routes.js';
 import cartRoute from './routes/cart.routes.js';
@@ -10,6 +9,8 @@ import chatRoute from './routes/chat.routes.js'
 import { Server } from "socket.io";
 import { Products, Chat } from './dao/config.js';
 import __dirname from './utils.js';
+import passport from 'passport';
+import Strategy from './config/passport.js';
 
 const app = express()
 const PORT = process.env.PORT || 8080;
@@ -23,6 +24,13 @@ app.use(session({
     saveUninitialized: false,
     resave: false
 }))
+
+// inicio de estrategias
+Strategy()
+// inicio de passport
+app.use(passport.initialize())
+// conecta con nuestro session
+app.use(passport.session())
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
